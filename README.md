@@ -1,6 +1,5 @@
 # SpotifyMonthlyPlaylists
-Automatically add newly saved songs to a monthly playlist using Spotify's API.
-
+Automatically add newly saved songs to a monthly playlist using Spotify's Web API.
 
 ## Usage
 
@@ -34,8 +33,6 @@ Calling update_monthly_playlists() checks for liked songs after a certain date a
 
 By default, only songs liked after the first of the month are added, and playlists are named using the current month's abbreviation and last 2 
 digits of the current year (ex: Jan 22).
-
-After a newly liked song is found and added to a playlist the program will only add songs which are liked after. This allows for songs to be removed from a monthly playlist without the program constantly adding them back.
 
 ### Another Example
 
