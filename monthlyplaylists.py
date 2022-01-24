@@ -14,7 +14,7 @@ class MonthlyPlaylists:
     :param redirect_uri: Any valid URI matching the redirect URI in Spotify Developer application (optional).
     :param date: Date to detect newly saved songs after (optional).
     :param name_format: Strftime format string to name monthly playlists (optional).
-    :param open_browser: Whether the web browser should automatically be opened to authenticate user.
+    :param headless: Allows authenticating Spotify on a headless machine (optional).
     """
     user_id: str
     saved_songs: Optional[List[Song]]
@@ -24,14 +24,14 @@ class MonthlyPlaylists:
 
     def __init__(self, client_id: str, client_secret: str,
                  redirect_uri: str = 'http://localhost:8888/callback',
-                 date: datetime = None, name_format: str = '%b %y', open_browser: bool = True) -> None:
+                 date: datetime = None, name_format: str = '%b %y', headless: bool = False) -> None:
         self.sp = spotipy.Spotify(
             auth_manager=SpotifyOAuth(
                 client_id=client_id,
                 client_secret=client_secret,
                 redirect_uri=redirect_uri,
                 scope="user-library-read playlist-modify-private playlist-modify-public playlist-read-private",
-                open_browser=open_browser
+                open_browser=headless
             )
         )
         self.user_id = self.sp.current_user()['id']
