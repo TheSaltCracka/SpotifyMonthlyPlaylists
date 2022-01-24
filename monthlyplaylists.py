@@ -104,7 +104,7 @@ class MonthlyPlaylists:
         :return: True for success, False otherwise.
         """
 
-        name = self.last_checked.strftime(self.name_format)
+        name = songs[0].added_at.strftime(self.name_format)
         existing_playlist = self.__find_playlist(name)
         if existing_playlist is None:
             return False
