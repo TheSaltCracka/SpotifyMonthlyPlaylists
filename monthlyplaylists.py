@@ -45,7 +45,6 @@ class MonthlyPlaylists:
 
         if not self.__fetch_saved_songs():
             print('error when loading saved songs')
-            return
         new_songs = self.__fetch_new_saved_songs()
         if not new_songs:
             print('No new songs')
@@ -58,21 +57,27 @@ class MonthlyPlaylists:
             return
         self.last_checked = new_songs[0].added_at
 
-    def __fetch_saved_songs(self) -> bool:
+    def __fetch_saved_songs(self, offset: int = 0) -> bool:
         """Fetches and stores currently saved songs using spotify's api.
+        :param offset: Load songs from offset onwards and append to current saved_songs.
         :return: True for success, False otherwise.
         """
 
-        self.saved_songs = None
         try:
-            results = self.sp.current_user_saved_tracks(limit=50)
+            results = self.sp.current_user_saved_tracks(limit=50, offset=offset)
         except Exception as e:
             print(repr(e))
             return False
         if 'items' not in results:
             return False
         tracks = results['items']
-        self.saved_songs = [Song(x) for x in tracks]
+        songs = [Song(x) for x in tracks]
+        if offset > 0:
+            self.saved_songs.extend(songs)
+        else:
+            self.saved_songs = songs
+        if self.saved_songs[-1].added_at > self.last_checked:
+            self.__fetch_saved_songs(offset=offset+50)
         return True
 
     def __fetch_playlists(self) -> bool:
