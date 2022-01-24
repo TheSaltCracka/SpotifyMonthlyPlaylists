@@ -110,8 +110,9 @@ class MonthlyPlaylists:
             return False
         for song in songs:
             # Change playlists if a song is liked from a different month than the previous song
-            if existing_playlist.name != song.added_at.strftime(self.name_format):
-                existing_playlist = self.__find_playlist(name)
+            curr_name = song.added_at.strftime(self.name_format)
+            if existing_playlist.name != curr_name:
+                existing_playlist = self.__find_playlist(curr_name)
             if existing_playlist is None:
                 return False
             existing_playlist.add_song(song)
