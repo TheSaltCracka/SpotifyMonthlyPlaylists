@@ -9,6 +9,8 @@ spotify = MonthlyPlaylists(
     redirect_uri='http://localhost:8888/callback'
 )
 
+# The class updates its date threshold to whichever song it added last.
+# Therefore, calling update_monthly_playlists() multiple times will make minimal api calls
 while True:
     spotify.update_monthly_playlists()
-    time.sleep(60)
+    time.sleep(30)
