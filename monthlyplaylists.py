@@ -31,7 +31,7 @@ class MonthlyPlaylists:
                 client_secret=client_secret,
                 redirect_uri=redirect_uri,
                 scope="user-library-read playlist-modify-private playlist-modify-public playlist-read-private",
-                open_browser=headless
+                open_browser=not headless
             )
         )
         self.user_id = self.sp.current_user()['id']
@@ -70,8 +70,7 @@ class MonthlyPlaylists:
             return False
         if 'items' not in results:
             return False
-        tracks = results['items']
-        songs = [Song(x) for x in tracks]
+        songs = [Song(x) for x in results['items']]
         if offset > 0:
             self.saved_songs.extend(songs)
         else:
@@ -93,8 +92,7 @@ class MonthlyPlaylists:
             return False
         if 'items' not in results:
             return False
-        playlists = results['items']
-        self.playlists = [Playlist(self.sp, x) for x in playlists]
+        self.playlists = [Playlist(self.sp, x) for x in results['items']]
         return True
 
     def __fetch_new_saved_songs(self):
